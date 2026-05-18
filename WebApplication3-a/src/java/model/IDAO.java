@@ -4,10 +4,21 @@
  */
 package model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author tungln
  */
-public class User {
+public interface IDAO<T, K> {
     
+    public boolean add(T t);
+    
+    public boolean remove(T t);
+    
+    public boolean update(T t);
+    
+    public ArrayList<T> listAll();
+    
+    public T searchByID(K id);
 }
