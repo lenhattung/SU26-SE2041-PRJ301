@@ -15,5 +15,7 @@
     <body>
         <h1>Welcome ${user.fullName}</h1> 
         You have successfully logged in.
+        <hr/>
+        <a href="user-form.jsp">Add User</a>
     </body>
 </html>
