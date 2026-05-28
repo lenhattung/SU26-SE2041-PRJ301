@@ -19,5 +19,6 @@
             </br>
             <input type="submit" value="Login" />
         </form>
+        <span style="color: red">${error}</span>
     </body>
 </html>

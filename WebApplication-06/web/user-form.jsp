@@ -31,17 +31,21 @@
             <td><input type="password" name="password" required value=""><span style="color: red">${password_error}</span></td>
         </tr>
         <tr>
-            <td>Vai trò:</td>
+           <td>Vai trò:</td>
             <td>
                 <select name="roleID">
-                    <option value="ADMIN">Admin</option>
-                    <option value="USER">User</option>
+                    <option value="ADMIN" ${userInput.roleID == 'ADMIN' ? 'selected' : ''}>Admin</option>
+                    <option value="USER" ${userInput.roleID == 'USER' ? 'selected' : ''}>User</option>
                 </select>
+                <span style="color: red">${roleID_error}</span>
             </td>
         </tr>
-        <tr>
+       <tr>
             <td>Trạng thái:</td>
-            <td><input type="checkbox" name="status" value="true" checked> Hoạt động</td>
+            <td>
+                <input type="checkbox" name="status" value="true" ${userInput == null || userInput.status ? 'checked' : ''}> Hoạt động
+                <span style="color: red">${status_error}</span>
+            </td>
         </tr>
         <tr>
             <td colspan="2">

@@ -61,6 +61,16 @@ public class AddUserController extends HttpServlet {
             request.setAttribute("password_error", "Password must have at least 8 characters");
             checkError = true;
         }
+        
+        if (roleID == null || roleID.trim().isEmpty()) {
+            request.setAttribute("roleID_error", "Role must be selected");
+            checkError = true;
+        }
+
+        if (!status) {
+            request.setAttribute("status_error", "status must be selected");
+            checkError = true;
+        }
 
         String url = "";
         UserDTO user = new UserDTO(userID, fullName, password, roleID, status);

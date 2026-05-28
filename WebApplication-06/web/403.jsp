@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index
-    Created on : May 25, 2026, 7:18:48 AM
+    Document   : 403.jsp
+    Created on : May 28, 2026, 8:27:15 AM
     Author     : Le Nhat Tung
 --%>
 
@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Your account cannot access the application!</h1>
     </body>
 </html>
