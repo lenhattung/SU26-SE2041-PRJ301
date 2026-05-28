@@ -4,6 +4,11 @@
     Author     : Le Nhat Tung
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:if test="${sessionScope.user==null}">
+    <c:redirect url="login.jsp"/>
+</c:if>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +18,7 @@
 <body>
 
 <h2>Thêm người dùng</h2>
+
 
 <form action="AddUserController" method="post">
     <input type="hidden" name="action" value="addUser">

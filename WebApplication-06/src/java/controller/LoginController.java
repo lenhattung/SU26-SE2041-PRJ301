@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.UserDAO;
 import model.UserDTO;
 
@@ -34,33 +35,41 @@ public class LoginController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-
-        // request.getParameter => lay ra bien tu form hoac url
-        String userID = request.getParameter("userID");
-        String password = request.getParameter("password");
-
-        // Kiem tra dang nhap
-        UserDAO udao = new UserDAO();
         String url = "";
-        UserDTO udto = udao.searchByID(userID);
-        if (udao.checkLogin(userID, password)) {
-            url = "dashboard.jsp";
-            // request.setAttribute("userName", udto.getFullName());
-            request.setAttribute("user", udto);
-        } else {
-            // Tinh huong 2 bi khoa tai khoan
-            if(!udto.isStatus()){
-                // Chuyen trang 403
-                url = "403.jsp";
-            }else{
-                // Sai ten mat khau
-                url = "login.jsp";
-                request.setAttribute("error", "Invalid userID or password!");
-            }
-        }
-
-        // Chuyen trang 
+        HttpSession session = request.getSession();
         RequestDispatcher rd = request.getRequestDispatcher(url);
+        if (session.getAttribute("user")==null) {
+            // Neu chua dang nhap
+            // request.getParameter => lay ra bien tu form hoac url
+            String userID = request.getParameter("userID");
+            String password = request.getParameter("password");
+
+            // Kiem tra dang nhap
+            UserDAO udao = new UserDAO();
+            UserDTO udto = udao.searchByID(userID);
+            if (udao.checkLogin(userID, password)) {
+                url = "dashboard.jsp";
+                // session.setAttribute("userName", udto.getFullName());
+
+                session.setAttribute("user", udto);
+            } else {
+                // Tinh huong 2 bi khoa tai khoan
+                if (!udto.isStatus()) {
+                    // Chuyen trang 403
+                    url = "403.jsp";
+                } else {
+                    // Sai ten mat khau
+                    url = "login.jsp";
+                    request.setAttribute("error", "Invalid userID or password!");
+                }
+            }
+            
+        }else{
+            // Ðã dang nhap roi
+             url = "dashboard.jsp";
+        }
+        // Chuyen trang 
+
         rd.forward(request, response);
     }
 
