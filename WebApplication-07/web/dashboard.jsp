@@ -19,7 +19,14 @@
     <body>
         <h1>Welcome ${user.fullName}</h1> 
         <hr/>
-        <a href="LogoutController"> Logout </a>
+         <hr/>
+         <!--
+        <a href="LogoutController"> Logout </a> &nbsp;
+         -->
+         <form action="LogoutController">
+             <input type="submit" value="Logout"/>
+         </form>
+        <br/>
         <a href="user-form.jsp">Add User</a>
     </body>
 </html>
