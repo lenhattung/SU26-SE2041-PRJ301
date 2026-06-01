@@ -6,17 +6,20 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.UserDAO;
+import model.UserDTO;
 
 /**
  *
  * @author Le Nhat Tung
  */
-public class MainController extends HttpServlet {
+public class SearchUserController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,20 +35,14 @@ public class MainController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        String url = "login.jsp";
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("login")) {
-                url = "LoginController";
-            } else if (action.equals("logout")) {
-                url = "LogoutController";
-            } else if (action.equals("addUser")) {
-                url = "AddUserController";
-            } else if (action.equals("searchUser")) {
-                url = "SearchUserController";
-            }
-        }
-        RequestDispatcher rd = request.getRequestDispatcher(url);
+        String keywords = request.getParameter("keywords");
+        UserDAO dao = new UserDAO();
+        ArrayList<UserDTO> list =  dao.searchByName(keywords);
+        System.out.println(list.size());
+        
+        request.setAttribute("keywords", keywords);
+        request.setAttribute("list", list);
+        RequestDispatcher rd = request.getRequestDispatcher("searchUser.jsp");
         rd.forward(request, response);
     }
 

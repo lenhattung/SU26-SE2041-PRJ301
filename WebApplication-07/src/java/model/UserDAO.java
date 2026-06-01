@@ -48,7 +48,7 @@ public class UserDAO implements IDAO<UserDTO, String> {
     }
 
     public boolean remove(UserDTO t) {
-         return softDelete(t.getUserID());
+        return softDelete(t.getUserID());
     }
 
     public boolean update(UserDTO t) {
@@ -106,6 +106,26 @@ public class UserDAO implements IDAO<UserDTO, String> {
         return null;
     }
 
+    public ArrayList<UserDTO> searchByName(String name) {
+        ArrayList<UserDTO> list = new ArrayList<>();
+        String sql = "SELECT * FROM [user] WHERE fullName LIKE ?";
+        System.out.println(sql);
+        try {
+            Connection conn = DbUtils.getConnection();
+            //Statement st = conn.createStatement();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, "%" + name + "%");
+            ResultSet rs = pst.executeQuery();
+            // Da lay duoc du lieu tu Table User
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public boolean checkLogin(String userID, String password) {
         UserDTO u = searchByID(userID);
         if (u == null) {
@@ -122,11 +142,10 @@ public class UserDAO implements IDAO<UserDTO, String> {
 
         return true;
     }
-    
+
     public boolean softDelete(String userID) {
         String sql = "UPDATE [user] SET status = 0 WHERE userID = ?";
-        try (Connection conn = DbUtils.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = DbUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, userID);
             return ps.executeUpdate() > 0;
@@ -136,11 +155,10 @@ public class UserDAO implements IDAO<UserDTO, String> {
         }
         return false;
     }
-    
+
     public boolean hardDelete(String userID) {
         String sql = "DELETE FROM [user] WHERE userID = ?";
-        try (Connection conn = DbUtils.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = DbUtils.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, userID);
             return ps.executeUpdate() > 0;

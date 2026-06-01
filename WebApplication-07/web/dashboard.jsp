@@ -18,8 +18,6 @@
     </head>
     <body>
         <h1>Welcome ${user.fullName}</h1> 
-        <hr/>
-        <hr/>
         <!--
        <a href="LogoutController"> Logout </a> &nbsp;
         -->
@@ -29,5 +27,7 @@
         </form>
         <br/>
         <a href="user-form.jsp">Add User</a>
+        <a href="searchUser.jsp">Search User</a>
+        <hr/>
     </body>
 </html>
