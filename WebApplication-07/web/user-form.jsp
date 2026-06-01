@@ -20,9 +20,8 @@
 <h2>Thêm người dùng</h2>
 
 
-<form action="AddUserController" method="post">
+<form action="MainController" method="post">
     <input type="hidden" name="action" value="addUser">
-
     <table>
         <tr>
             <td>Mã người dùng:</td>

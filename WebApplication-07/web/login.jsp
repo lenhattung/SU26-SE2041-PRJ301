@@ -17,7 +17,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="LoginController" method="POST">
+        <form action="MainController" method="POST">
+            <input type="hidden" name="action" value="login"/>
             Username: <input type="text" name="userID" />
             </br>
             Password: <input type="password" name="password" />

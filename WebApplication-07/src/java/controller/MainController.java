@@ -5,19 +5,18 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.UserDAO;
-import model.UserDTO;
 
 /**
  *
  * @author Le Nhat Tung
  */
-public class AddUserController extends HttpServlet {
+public class MainController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,64 +29,19 @@ public class AddUserController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-
-        String userID = request.getParameter("userID");
-        String fullName = request.getParameter("fullName");
-        String password = request.getParameter("password");
-        String roleID = request.getParameter("roleID");
-        boolean status = request.getParameter("status") != null;
-
-        UserDAO dao = new UserDAO();
-
-        boolean checkError = false;
-        // Check user is exists
-        if (dao.searchByID(userID) != null) {
-            request.setAttribute("userID_error", "The user id already exists");
-            checkError = true;
-        }
-
-        // Check user name is empty
-        if (fullName.isEmpty()) {
-            request.setAttribute("fullName_error", "Fullname can not be empty");
-            checkError = true;
-        }
-
-        // Check user name is empty
-        if (password.length() < 8) {
-            request.setAttribute("password_error", "Password must have at least 8 characters");
-            checkError = true;
-        }
-        
-        if (roleID == null || roleID.trim().isEmpty()) {
-            request.setAttribute("roleID_error", "Role must be selected");
-            checkError = true;
-        }
-
-        if (!status) {
-            request.setAttribute("status_error", "status must be selected");
-            checkError = true;
-        }
-
-        String url = "";
-        UserDTO user = new UserDTO(userID, fullName, password, roleID, status);
-         request.setAttribute("userInput", user);
-        if (checkError) {
-            url = "user-form.jsp";
-        } else {
-            if (dao.add(user)) {
-                // Them thanh cong
-                url = "dashboard.jsp";
-            } else {
-                request.setAttribute("error", "Adding a user failed");
+        String url = "login.jsp";
+        String action = request.getParameter("action");
+        if(action!=null){
+            if(action.equals("login")){
+                url = "LoginController";
+            }else if(action.equals("logout")){
+                url = "LogoutController";
+            }else if(action.equals("addUser")){
+                url = "AddUserController";
             }
         }
-        // Chuyen trang
         RequestDispatcher rd = request.getRequestDispatcher(url);
         rd.forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
